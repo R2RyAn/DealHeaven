@@ -1,24 +1,25 @@
-Sign-Up 
-Email Verification
-Featured Section
-Buy Vehicles
-Rent Vehicles
-Buy Accessories
-Sell Vehicles
-Rent Vehicles
-Auction Vehicles
-Sell Accessories
-Click on an Auction
-Message Auctioneer
-See Highest Bid
-Place a Bid 
-Purchase 
-Purchase verification
-Seller rating
-Message sellers
-Receive messages from buyers
-Account settings
-View personal listings
-View personal bids
-View personal ratings
+1. Sign-Up
+2. Email Verification
+3. Featured Section
+4. Buy Vehicles
+5. Rent Vehicles
+6. Buy Accessories
+7. Sell Vehicles
+8. Rent Vehicles
+9. Auction Vehicles
+10. Sell Accessories
+11. Click on an Auction
+12. Message Auctioneer
+13. See Highest Bid
+14. Place a Bid 
+15. Purchase 
+16. Purchase verification
+17. Seller rating
+18. Message sellers
+19. Receive messages from buyers
+20. Account settings
+21. View personal listings
+22. View personal bids
+23. View personal ratings
+
 
