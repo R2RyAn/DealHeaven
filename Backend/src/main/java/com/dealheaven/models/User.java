@@ -3,6 +3,9 @@ package com.dealheaven.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -11,22 +14,23 @@ import java.util.stream.Collectors;
 public class User {
 
 
-    private int id;
+    private String id;
     private String username;
     private String password;
     private String email;
     private String phone;
-    private Set<Role> roles;
+    private List<Role> roles;
     private String profilePictureUrl;
     private int userRating;
 
 
-    public User(int id, String name, String password, String email, String phone) {
+    public User(String id, String name, String password, String email, String phone) {
         this.id = id;
         this.username = name;
         this.password = password;
         this.email = email;
         this.phone = phone;
+        this.roles = new ArrayList<>();
     }
 
     public void addRole(Role role) {

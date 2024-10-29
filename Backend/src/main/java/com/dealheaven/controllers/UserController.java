@@ -18,7 +18,7 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<?> createUser(@RequestBody User user) throws ExecutionException, InterruptedException {
         userService.createUser(user);
-        return ResponseEntity.ok("User created successfully");
+        return ResponseEntity.ok("User created successfully with id: " + user.getId());
     }
 
     @GetMapping("/{id}")
@@ -26,6 +26,7 @@ public class UserController {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
+
 
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody User user) throws ExecutionException, InterruptedException {

@@ -5,7 +5,9 @@ import com.dealheaven.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,8 +18,8 @@ public class UserTest {
 
     @BeforeEach
     public void setUp() {
-        user = new User(1, "username", "password", "email@example.com", "1234567890");
-        user.setRoles(new HashSet<>());
+        user = new User("1", "username", "password", "email@example.com", "1234567890");
+        user.setRoles(new ArrayList<>());
         role = new Role();
         role.assignRole("ROLE_USER");
     }
