@@ -1,7 +1,9 @@
 package com.dealheaven.models;
 
+
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
 @Getter
 public class User {
 
-
+    @Id
     private String id;
     private String username;
     private String password;

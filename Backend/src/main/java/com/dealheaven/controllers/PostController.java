@@ -29,7 +29,7 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePost(@PathVariable String id) throws ExecutionException, InterruptedException {
         postService.deletePost(id);
         return ResponseEntity.ok("Post deleted successfully");

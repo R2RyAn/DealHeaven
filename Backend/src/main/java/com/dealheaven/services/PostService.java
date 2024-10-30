@@ -46,11 +46,6 @@ public class PostService {
         // Get the user document
         User user = userDoc.get().get().toObject(User.class);
 
-        // Ensure the user's post list exists
-        if (user.getPostIds() == null) {
-            user.setPostIds(new ArrayList<>());
-        }
-
         // Add the post ID to the user's list of posts
         user.addPostId(postId);
 
