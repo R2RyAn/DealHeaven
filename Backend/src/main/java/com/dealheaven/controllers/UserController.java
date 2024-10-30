@@ -26,6 +26,12 @@ public class UserController {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
+    @GetMapping("/email/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) throws ExecutionException, InterruptedException {
+        User user = userService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
 
 
     @PutMapping("/update")

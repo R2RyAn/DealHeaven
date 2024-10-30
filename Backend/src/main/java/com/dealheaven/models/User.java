@@ -22,8 +22,12 @@ public class User {
     private List<Role> roles;
     private String profilePictureUrl;
     private int userRating;
+    private List<String> postIds;
 
-
+    public User(){
+        this.roles = new ArrayList<>();
+        this.postIds = new ArrayList<>();
+    }
     public User(String id, String name, String password, String email, String phone) {
         this.id = id;
         this.username = name;
@@ -58,6 +62,9 @@ public class User {
         return "Username: " + username + "\n" +
                 "Email: " + email + "\n" +
                 "Roles: " + roles.stream().map(Role::getRoleName).collect(Collectors.joining(", "));
+    }
+    public void addPostId(String postId) {
+        this.postIds.add(postId);
     }
 
 }

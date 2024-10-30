@@ -48,6 +48,24 @@ public class UserService {
         return userDoc.get().get().toObject(User.class);
     }
 
+    public User getUserByEmail(String email) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+
+        // Query Firestore to get the document by email
+        CollectionReference users = db.collection(USER_COLLECTION);
+        Query query = users.whereEqualTo("email", email);
+        List<QueryDocumentSnapshot> documents = query.get().get().getDocuments();
+
+        // If no document is found, return null or throw an appropriate exception
+        if (documents.isEmpty()) {
+            throw new IllegalArgumentException("No user exists with this email");
+        }
+
+        // Return the first document found (if your emails are unique)
+        return documents.get(0).toObject(User.class);
+    }
+
+
     public void updateUser(User user) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference userDoc = db.collection(USER_COLLECTION).document(String.valueOf(user.getId()));
@@ -57,5 +75,16 @@ public class UserService {
     public void deleteUser(String userId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         db.collection(USER_COLLECTION).document(userId).delete().get();
+    }
+
+    public String getUserIdByEmail(String email) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        CollectionReference users = db.collection(USER_COLLECTION);
+        Query query = users.whereEqualTo("email", email);
+        List<QueryDocumentSnapshot> documents = query.get().get().getDocuments();
+        if (documents.isEmpty()) {
+            throw new IllegalArgumentException("No user exists with this email");
+        }
+        return documents.get(0).getId();
     }
 }
