@@ -29,7 +29,7 @@ public class PostService {
         // Add the post and retrieve the document reference
         DocumentReference documentReference = posts.add(post).get();
         String generatedId = documentReference.getId();
-        post.setId(generatedId);
+        post .setId(generatedId);
 
         // Update the post with the generated ID
         documentReference.set(post).get();
