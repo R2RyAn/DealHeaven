@@ -15,7 +15,7 @@ public class ReviewService {
 
     private static final String REVIEW_COLLECTION = "reviews";
 
-    public void createReview(Review review) throws ExecutionException, InterruptedException {
+    public static void createReview(Review review) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         CollectionReference users = db.collection(REVIEW_COLLECTION);
 
