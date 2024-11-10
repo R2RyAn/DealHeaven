@@ -31,8 +31,13 @@ public class ReviewController {
 
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody Review Review) throws ExecutionException, InterruptedException {
-        reviewService.updateReview(user);
-        return ResponseEntity.ok("User updated successfully");
+        reviewService.updateReview(review);
+        return ResponseEntity.ok("Review updated successfully");
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable String id) throws ExecutionException, InterruptedException {
+        reviewService.deleteReview(id);
+        return ResponseEntity.ok("Review deleted successfully");
+    }
 }
