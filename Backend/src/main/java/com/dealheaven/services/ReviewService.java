@@ -2,6 +2,7 @@ package com.dealheaven.services;
 
 
 import com.dealheaven.models.Review;
+import com.dealheaven.models.User;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
@@ -40,5 +41,11 @@ public class ReviewService {
         review.setId(generatedId);
         // Optionally update the user document with the generated ID
         documentReference.set(review).get();
+    }
+
+    public Review getReviewById(String reviewId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        DocumentReference ReviewDoc = db.collection(REVIEW_COLLECTION).document(reviewId);
+        return ReviewDoc.get().get().toObject(Review.class);
     }
 }
