@@ -14,7 +14,8 @@ const HomePage = () => {
     minSeats: '',
     maxSeats: '',
     make: '',
-    condition: ''
+    condition: '',
+    sortPrice: 'none' // Added sortPrice filter
   });
   const [showFilters, setShowFilters] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -80,6 +81,16 @@ const HomePage = () => {
 
     console.log("Post matches search:", matchesSearch, "Post matches filters:", matchesFilters);
     return matchesSearch && matchesFilters;
+  });
+
+  const sortedPosts = filteredPosts.sort((a, b) => {
+    if (filters.sortPrice === 'ascending') {
+      return a.price - b.price;
+    } else if (filters.sortPrice === 'descending') {
+      return b.price - a.price;
+    } else {
+      return 0;
+    }
   });
 
   const handleFilterChange = (e) => {
@@ -234,14 +245,6 @@ const HomePage = () => {
                   <div className="flex gap-2">
                     <input
                       type="number"
-                      name="minSeats"
-                      placeholder="Min"
-                      value={filters.minSeats}
-                      onChange={handleFilterChange}
-                      className="w-full p-2 border rounded-lg"
-                    />
-                    <input
-                      type="number"
                       name="maxSeats"
                       placeholder="Max"
                       value={filters.maxSeats}
@@ -277,6 +280,20 @@ const HomePage = () => {
                     <option value="certified">Certified Pre-Owned</option>
                   </select>
                 </div>
+                {/* Sort by Price Filter */}
+                <div className="space-y-2">
+                  <h3 className="font-medium text-gray-700">Sort by Price</h3>
+                  <select
+                    name="sortPrice"
+                    value={filters.sortPrice}
+                    onChange={handleFilterChange}
+                    className="w-full p-2 border rounded-lg"
+                  >
+                    <option value="none">None</option>
+                    <option value="ascending">Low to High</option>
+                    <option value="descending">High to Low</option>
+                  </select>
+                </div>
               </div>
             </div>
           )}
@@ -291,15 +308,15 @@ const HomePage = () => {
           </div>
         )}
 
-        {/* Posts Grid */}
-        {loading ? (
+         {/* Posts Grid */}
+         {loading ? (
           <div className="text-center py-8">Loading posts...</div>
         ) : error ? (
           <div className="text-center py-8 text-red-600">{error}</div>
         ) : (
           <div className="w-full max-w-7xl px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredPosts.map((post) => (
+              {sortedPosts.map((post) => (
                 <div
                   key={post.id}
                   className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
@@ -307,7 +324,27 @@ const HomePage = () => {
                   {post.images && post.images.length > 0 && <Carousel images={post.images} />}
                   <div className="p-4">
                     <h3 className="text-xl font-semibold text-gray-800">{post.title}</h3>
-                    <p className="text-gray-600 mt-2">{post.description}</p>
+                    <p className="text-gray-600 mt-2">
+                      {post.description.length > 150 && !post.showFullDescription ? (
+                        <>
+                          {post.description.slice(0, 150)}...
+                          <button
+                            className="text-blue-600 hover:underline"
+                            onClick={() => {
+                              const updatedPosts = posts.map((p) =>
+                                p.id === post.id ? { ...p, showFullDescription: true } : p
+                              );
+                              setPosts(updatedPosts);
+                            }}
+                          >
+                            Read more
+                          </button>
+                        </>
+                      ) : (
+                        post.description
+                      )}
+                    </p>
+                    
                     <div className="mt-4 space-y-2">
                       <div className="flex justify-between items-center">
                         <span className="text-2xl font-bold text-blue-600">${post.price.toLocaleString()}</span>
