@@ -31,7 +31,7 @@ public class ReviewController {
 
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody Review Review) throws ExecutionException, InterruptedException {
-        reviewService.updateReview(review);
+        reviewService.updateReview(Review);
         return ResponseEntity.ok("Review updated successfully");
     }
 

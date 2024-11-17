@@ -48,4 +48,15 @@ public class ReviewService {
         DocumentReference ReviewDoc = db.collection(REVIEW_COLLECTION).document(reviewId);
         return ReviewDoc.get().get().toObject(Review.class);
     }
+
+    public void updateReview(Review review) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        DocumentReference ReviewDoc = db.collection(REVIEW_COLLECTION).document(review.getId());
+        ReviewDoc.set(review).get();
+    }
+
+    public void deleteReview(String reviewId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        db.collection(REVIEW_COLLECTION).document(reviewId).delete().get();
+    }
 }
