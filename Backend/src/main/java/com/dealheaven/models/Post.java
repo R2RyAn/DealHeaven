@@ -17,6 +17,7 @@ public class Post {
     private String make;
     private String model;
     private int year;
+    private int SeatingCapacity;
     private String condition;
     private String sellerId;
     private String category;
