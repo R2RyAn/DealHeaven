@@ -5,6 +5,7 @@ import Signup from "./Signup";
 import HomePage from "./HomePage";
 import "./App.css";
 import './index.css';
+import ListingPage from "./ListingPage";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/Listing" element={<ListingPage />} />
       </Routes>
     </Router>
   );
