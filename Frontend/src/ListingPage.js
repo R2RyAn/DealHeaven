@@ -10,7 +10,10 @@ const ListingPage = () => {
     year: '',
     seatingCapacity: '',
     condition: '',
-    images: []
+    images: [],
+    sellerId: 'testSellerId', // Replace with dynamic seller ID if available
+    category: '',
+    available: true
   });
 
   const [successMessage, setSuccessMessage] = useState('');
@@ -21,30 +24,18 @@ const ListingPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, images: e.target.files });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage('');
     setErrorMessage('');
 
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      if (key === 'images') {
-        Array.from(formData.images).forEach((file) => {
-          formDataToSend.append('images', file);
-        });
-      } else {
-        formDataToSend.append(key, formData[key]);
-      }
-    }
-
     try {
       const response = await fetch('http://localhost:8080/api/posts/create', {
         method: 'POST',
-        body: formDataToSend
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
       });
 
       if (!response.ok) {
@@ -61,7 +52,10 @@ const ListingPage = () => {
         year: '',
         seatingCapacity: '',
         condition: '',
-        images: []
+        images: [],
+        sellerId: 'testSellerId', // Reset seller ID dynamically if needed
+        category: '',
+        available: true
       });
     } catch (error) {
       setErrorMessage(error.message);
@@ -159,14 +153,32 @@ const ListingPage = () => {
           </div>
 
           <div>
-            <label htmlFor="images" className="block text-sm font-medium text-gray-700">
-              Upload Images
+            <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+              Category
             </label>
             <input
-              type="file"
+              type="text"
+              name="category"
+              placeholder="Category"
+              value={formData.category}
+              onChange={handleInputChange}
+              className="w-full p-3 border rounded-lg"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="images" className="block text-sm font-medium text-gray-700">
+              Image URLs (Comma Separated)
+            </label>
+            <input
+              type="text"
               name="images"
-              multiple
-              onChange={handleFileChange}
+              placeholder="Enter image URLs"
+              value={formData.images.join(', ')}
+              onChange={(e) =>
+                setFormData({ ...formData, images: e.target.value.split(',').map((url) => url.trim()) })
+              }
               className="w-full p-3 border rounded-lg"
             />
           </div>
