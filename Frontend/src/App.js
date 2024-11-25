@@ -15,6 +15,9 @@ const App = () => {
           <Link to="/home" className="App-link">
             Home
           </Link>
+          <Link to="/listing" className="App-link">
+            Listing
+          </Link>
         </div>
         <div className="App-navbar-right">
           <Link to="/login" className="App-link">
