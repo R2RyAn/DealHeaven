@@ -5,6 +5,7 @@ import Signup from "./Signup";
 import HomePage from "./HomePage";
 import "./App.css";
 import './index.css';
+import ListingPage from "./ListingPage";
 
 const App = () => {
   return (
@@ -13,6 +14,9 @@ const App = () => {
         <div className="App-navbar-left">
           <Link to="/home" className="App-link">
             Home
+          </Link>
+          <Link to="/listing" className="App-link">
+            Listing
           </Link>
         </div>
         <div className="App-navbar-right">
@@ -29,6 +33,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/listing" element={<ListingPage />} />
       </Routes>
     </Router>
   );
