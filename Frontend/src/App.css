@@ -12,6 +12,11 @@
 }
 
 /* Left section (Home button) */
+
+.App-navbar-left {
+  display: flex;
+  gap: 15px; /* Add spacing between links */
+}
 .App-navbar-left a {
   text-decoration: none;
   color: #007bff; /* Blue link color */
@@ -21,6 +26,7 @@
 
 .App-navbar-left a:hover {
   color: #0056b3; /* Darker blue on hover */
+  
 }
 
 /* Right section (Login and Signup buttons) */
