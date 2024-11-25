@@ -25,9 +25,16 @@ public class PostService {
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference userDoc = db.collection(USERS_COLLECTION).document(post.getSellerId());
 
-        // Ensure the user exists
-        if (!userDoc.get().get().exists()) {
-            throw new IllegalArgumentException("User with sellerId '" + post.getSellerId() + "' does not exist");
+        // Ensure the user exists; create a new user if it doesn't
+        User user = userDoc.get().get().toObject(User.class);
+        if (user == null) {
+            System.out.println("User with sellerId '" + post.getSellerId() + "' does not exist. Creating a new user.");
+            user = new User();
+            user.setId(post.getSellerId());
+            user.setUsername("newProfile"); // Set some default values or values from the post request
+            user.setEmail("default@example.com");
+            user.setPostIds(new ArrayList<>());
+            userDoc.set(user).get();
         }
 
         CollectionReference posts = db.collection(POSTS_COLLECTION);
@@ -43,6 +50,7 @@ public class PostService {
         // Update the user's post list
         updateUserPosts(post.getSellerId(), generatedId);
     }
+
 
     // Method to update the user's post list
     private void updateUserPosts(String sellerId, String postId) throws ExecutionException, InterruptedException {
