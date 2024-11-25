@@ -1,7 +1,7 @@
 package com.dealheaven.services;
+
 import com.dealheaven.models.Post;
 import com.dealheaven.models.User;
-import com.dealheaven.services.UserService;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
@@ -15,21 +15,27 @@ public class PostService {
 
     private static final String POSTS_COLLECTION = "posts";
     private static final String USERS_COLLECTION = "users";
-    private final UserService userService;
-
-    public PostService(UserService userService) {
-        this.userService = userService;
-    }
 
     // Method to add a new post (product)
     public void addPost(Post post) throws ExecutionException, InterruptedException {
+        if (post.getSellerId() == null || post.getSellerId().trim().isEmpty()) {
+            throw new IllegalArgumentException("'sellerId' must be a non-empty string");
+        }
+
         Firestore db = FirestoreClient.getFirestore();
+        DocumentReference userDoc = db.collection(USERS_COLLECTION).document(post.getSellerId());
+
+        // Ensure the user exists
+        if (!userDoc.get().get().exists()) {
+            throw new IllegalArgumentException("User with sellerId '" + post.getSellerId() + "' does not exist");
+        }
+
         CollectionReference posts = db.collection(POSTS_COLLECTION);
 
         // Add the post and retrieve the document reference
         DocumentReference documentReference = posts.add(post).get();
         String generatedId = documentReference.getId();
-        post .setId(generatedId);
+        post.setId(generatedId);
 
         // Update the post with the generated ID
         documentReference.set(post).get();
@@ -43,11 +49,15 @@ public class PostService {
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference userDoc = db.collection(USERS_COLLECTION).document(sellerId);
 
-        // Get the user document
         User user = userDoc.get().get().toObject(User.class);
 
+        // If user exists but has no post list, initialize it
+        if (user.getPostIds() == null) {
+            user.setPostIds(new ArrayList<>());
+        }
+
         // Add the post ID to the user's list of posts
-        user.addPostId(postId);
+        user.getPostIds().add(postId);
 
         // Update the user document in Firestore
         userDoc.set(user).get();
@@ -64,46 +74,32 @@ public class PostService {
         Firestore db = FirestoreClient.getFirestore();
         CollectionReference postsCollection = db.collection(POSTS_COLLECTION);
 
-        // Fetch all documents in the "posts" collection
         List<QueryDocumentSnapshot> documents = postsCollection.get().get().getDocuments();
 
-        // Convert documents to Post objects
         List<Post> posts = new ArrayList<>();
-        for(int i = 0; i < documents.size(); i++) {
-            QueryDocumentSnapshot document = documents.get(i);
+        for (QueryDocumentSnapshot document : documents) {
             Post post = document.toObject(Post.class);
             posts.add(post);
         }
-
-
         return posts;
     }
-
 
     public Post getPostById(String postId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        DocumentReference userDoc = db.collection(POSTS_COLLECTION).document(postId);
-        return userDoc.get().get().toObject(Post.class);
+        DocumentReference postDoc = db.collection(POSTS_COLLECTION).document(postId);
+        return postDoc.get().get().toObject(Post.class);
     }
 
-    public List<Post> getAllPostsFromUser(String email) throws ExecutionException, InterruptedException {
-
-
-        UserService userService = new UserService();
-        String userId = userService.getUserIdByEmail(email);
-
+    public List<Post> getAllPostsFromUser(String sellerId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         CollectionReference postsCollection = db.collection(POSTS_COLLECTION);
 
-        List<QueryDocumentSnapshot> getPosts = postsCollection.whereEqualTo("sellerId", userId).get().get().getDocuments();
+        List<QueryDocumentSnapshot> documents = postsCollection.whereEqualTo("sellerId", sellerId).get().get().getDocuments();
         List<Post> posts = new ArrayList<>();
-        for(int i = 0; i < getPosts.size(); i++) {
-            QueryDocumentSnapshot document = getPosts.get(i);
+        for (QueryDocumentSnapshot document : documents) {
             Post post = document.toObject(Post.class);
             posts.add(post);
         }
         return posts;
     }
-
-
 }
