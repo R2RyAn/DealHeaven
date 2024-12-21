@@ -37,7 +37,7 @@
 
 ## Demo Video 🎥
 
-[Watch the demo video](Docs/Sprint 3/Sprint -3- demo.mp4)
+[Watch the demo video](Docs/Sprint3/Sprint-3-demo.mp4)
 ## Contribution
 Here’s how you can contribute:
 
