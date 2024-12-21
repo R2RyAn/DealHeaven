@@ -37,8 +37,7 @@
 
 ## Demo Video 🎥
 
-[Watch the demo video]([Docs/Sprint%203/Sprint-3-demo.mp4](https://github.com/R2RyAn/DealHeaven/blob/main/Docs/Sprint%203/Sprint%20-3-%20demo.mp4))
-
+[Watch the demo video](Docs/Sprint 3/Sprint -3- demo.mp4)
 ## Contribution
 Here’s how you can contribute:
 
